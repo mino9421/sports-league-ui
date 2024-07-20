@@ -15,21 +15,62 @@
           <div>Away Team</div>
         </div>
       </div>
-      <div class="table-body">
+      <div class="table-body" v-for="match in matches" :key="match.matchDate">
         <div class="table-body-date">
-          <div>2022-01-01 14:00</div>
-          <div>Stadium A</div>
+          <div>{{ match.formattedMatchDate }}</div>
+          <div>{{ match.stadium }}</div>
         </div>
         <div class="table-body-info">
-          <div>Team A</div>
-          <div>Team B</div>
+          <div>
+            {{ match.homeTeam }}
+            <img class="flag" :src="match.homeFlag" />
+          </div>
+          <div>{{ match.homeTeamScore }} : {{ match.awayTeamScore }}</div>
+          <div>
+            <img class="flag" :src="match.awayFlag" />{{ match.awayTeam }}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<!-- sample response after my modifications
+    "matchDate": 1651744228685,
+    "stadium": "Maracanã",
+    "homeTeam": "Brazil",
+    "awayTeam": "Serbia",
+    "matchPlayed": true,
+    "homeTeamScore": 1,
+    "awayTeamScore": 0,
+    "homeFlag": "https://flagsapi.codeaid.io/countries/BR/flag",
+    "awayFlag": "https://flagsapi.codeaid.io/countries/RS/flag",
+    "formattedMatchDate": "05.05.2022 11:17"
+-->
+<script>
+import LeagueService from "../services/LeagueService.js";
+
+export default {
+  data() {
+    return {
+      matches: [],
+      leaderboard: [],
+    };
+  },
+  async mounted() {
+    const leagueService = new LeagueService();
+    await leagueService.fetchData();
+    this.matches = leagueService.getMatches();
+    this.leaderboard = leagueService.getLeaderboard();
+  },
+};
+</script>
 
 <style>
+.flag {
+  height: 33px;
+  width: 53px;
+}
+
 .schedule {
   display: flex;
   justify-content: center;
