@@ -73,7 +73,108 @@ class LeagueService {
    *
    * @returns {Array} List of teams representing the leaderboard.
    */
-  getLeaderboard() {}
+  getLeaderboard() {
+    const teams = {};
+
+    this.matches.forEach((match) => {
+      const { homeTeam, awayTeam, matchPlayed, homeTeamScore, awayTeamScore } =
+        match;
+
+      if (!teams[homeTeam]) {
+        teams[homeTeam] = {
+          teamName: homeTeam,
+          matchesPlayed: 0,
+          goalsFor: 0,
+          goalsAgainst: 0,
+          points: 0,
+          flagUrl: this.flags[homeTeam] || "",
+        };
+      }
+      if (!teams[awayTeam]) {
+        teams[awayTeam] = {
+          teamName: awayTeam,
+          matchesPlayed: 0,
+          goalsFor: 0,
+          goalsAgainst: 0,
+          points: 0,
+          flagUrl: this.flags[awayTeam] || "",
+        };
+      }
+
+      if (matchPlayed) {
+        teams[homeTeam].matchesPlayed += 1;
+        teams[awayTeam].matchesPlayed += 1;
+
+        teams[homeTeam].goalsFor += homeTeamScore;
+        teams[awayTeam].goalsFor += awayTeamScore;
+
+        teams[homeTeam].goalsAgainst += awayTeamScore;
+        teams[awayTeam].goalsAgainst += homeTeamScore;
+
+        if (homeTeamScore > awayTeamScore) {
+          teams[homeTeam].points += 3;
+        } else if (homeTeamScore < awayTeamScore) {
+          teams[awayTeam].points += 3;
+        } else {
+          teams[homeTeam].points += 1;
+          teams[awayTeam].points += 1;
+        }
+      }
+    });
+
+    // Convert teams object to an array
+    let teamsArray = Object.values(teams);
+
+    // Function to calculate head-to-head points
+    const getHeadToHeadPoints = (teamA, teamB) => {
+      let teamA_points = 0;
+      let teamB_points = 0;
+
+      this.matches.forEach((match) => {
+        if (
+          (match.homeTeam === teamA && match.awayTeam === teamB) ||
+          (match.homeTeam === teamB && match.awayTeam === teamA)
+        ) {
+          if (match.matchPlayed) {
+            if (match.homeTeam === teamA) {
+              if (match.homeTeamScore > match.awayTeamScore) teamA_points += 3;
+              else if (match.homeTeamScore < match.awayTeamScore)
+                teamB_points += 3;
+              else {
+                teamA_points += 1;
+                teamB_points += 1;
+              }
+            } else {
+              if (match.homeTeamScore < match.awayTeamScore) teamA_points += 3;
+              else if (match.homeTeamScore > match.awayTeamScore)
+                teamB_points += 3;
+              else {
+                teamA_points += 1;
+                teamB_points += 1;
+              }
+            }
+          }
+        }
+      });
+
+      return teamA_points - teamB_points;
+    };
+
+    // Sort teams by points, then by head-to-head points, goal difference, goals scored, and name
+    teamsArray.sort((a, b) => {
+      if (a.points !== b.points) return b.points - a.points;
+      const headToHeadPoints = getHeadToHeadPoints(a.teamName, b.teamName);
+      if (headToHeadPoints !== 0) return headToHeadPoints;
+      const goalDifferenceA = a.goalsFor - a.goalsAgainst;
+      const goalDifferenceB = b.goalsFor - b.goalsAgainst;
+      if (goalDifferenceA !== goalDifferenceB)
+        return goalDifferenceB - goalDifferenceA;
+      if (a.goalsFor !== b.goalsFor) return b.goalsFor - a.goalsFor;
+      return a.teamName.localeCompare(b.teamName);
+    });
+
+    return teamsArray;
+  }
 
   /**
    * Asynchronic function to fetch the data from the server and set the matches.
@@ -92,11 +193,6 @@ class LeagueService {
       const data = response.data;
       if (data.success) {
         await this.fetchFlags(); // Ensure flags are fetched before setting matches
-        const matchesWithFlags = data.matches.map((match) => ({
-          ...match,
-          homeFlag: this.flags[match.homeTeam] || "", // Add home team flag
-          awayFlag: this.flags[match.awayTeam] || "", // Add away team flag
-        }));
 
         this.setMatches(data.matches);
       } else {

@@ -15,23 +15,45 @@
           <div>Points</div>
         </div>
       </div>
-      <div class="table-body">
+      <div class="table-body" v-for="team in leaderboard" :key="team.teamName">
         <div class="table-body-date">
-          <div>Flag</div>
-          <div>Team Name</div>
+          <div><img class="flag" :src="team.flagUrl" alt="" /></div>
+          <div>{{ team.teamName }}</div>
         </div>
         <div class="table-body-info">
-          <div>3</div>
-          <div>3</div>
-          <div>3</div>
-          <div>3</div>
+          <div>{{ team.matchesPlayed }}</div>
+          <div>{{ team.goalsFor }}</div>
+          <div>{{ team.goalsAgainst }}</div>
+          <div>{{ team.points }}</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<script>
+import LeagueService from "../services/LeagueService.js";
+
+export default {
+  data() {
+    return {
+      leaderboard: [],
+    };
+  },
+  async mounted() {
+    const leagueService = new LeagueService();
+    await leagueService.fetchData();
+    this.leaderboard = leagueService.getLeaderboard();
+  },
+};
+</script>
+
 <style>
+.flag {
+  height: 33px;
+  width: 53px;
+}
+
 .schedule {
   display: flex;
   justify-content: center;

@@ -60,7 +60,6 @@ export default {
     const leagueService = new LeagueService();
     await leagueService.fetchData();
     this.matches = leagueService.getMatches();
-    this.leaderboard = leagueService.getLeaderboard();
   },
 };
 </script>
