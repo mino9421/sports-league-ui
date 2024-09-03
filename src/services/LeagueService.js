@@ -182,7 +182,7 @@ class LeagueService {
   async fetchData() {
     try {
       const response = await axios.get(
-        "http://localhost:3005/api/v1/getAllMatches",
+        "http://localhost:3001/api/v1/getAllMatches",
         {
           headers: {
             Authorization: "Bearer YuHBdSlDXY000xa8IlCm7Qgq4_s",

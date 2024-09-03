@@ -20,7 +20,7 @@
     <main class="body">
       <router-view></router-view>
     </main>
-    <footer class="footer">API VERSION: 1.0</footer>
+    <footer class="footer">API VERSION: 2.0</footer>
   </div>
 </template>
 

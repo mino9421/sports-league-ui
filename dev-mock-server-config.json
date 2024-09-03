@@ -12,58 +12,151 @@
         "success": true,
         "matches": [
           {
-            "matchDate": 1651744228685,
-            "stadium": "Maracanã",
-            "homeTeam": "Brazil",
-            "awayTeam": "Serbia",
+            "matchDate": 1668988800000,
+            "stadium": "Al Bayt Stadium",
+            "homeTeam": "Qatar",
+            "awayTeam": "Ecuador",
+            "matchPlayed": true,
+            "homeTeamScore": 0,
+            "awayTeamScore": 2
+          },
+          {
+            "matchDate": 1669155600000,
+            "stadium": "Lusail Iconic Stadium",
+            "homeTeam": "Argentina",
+            "awayTeam": "Saudi Arabia",
+            "matchPlayed": true,
+            "homeTeamScore": 1,
+            "awayTeamScore": 2
+          },
+          {
+            "matchDate": 1669242000000,
+            "stadium": "Stadium 974",
+            "homeTeam": "Portugal",
+            "awayTeam": "Ghana",
+            "matchPlayed": true,
+            "homeTeamScore": 3,
+            "awayTeamScore": 2
+          },
+          {
+            "matchDate": 1669339200000,
+            "stadium": "Al Thumama Stadium",
+            "homeTeam": "Belgium",
+            "awayTeam": "Canada",
             "matchPlayed": true,
             "homeTeamScore": 1,
             "awayTeamScore": 0
           },
           {
-            "matchDate": 1651744228685,
-            "stadium": "Stade de Suisse",
-            "homeTeam": "Switzerland",
-            "awayTeam": "Serbia",
+            "matchDate": 1669425600000,
+            "stadium": "Education City Stadium",
+            "homeTeam": "Uruguay",
+            "awayTeam": "South Korea",
             "matchPlayed": true,
-            "homeTeamScore": 2,
+            "homeTeamScore": 0,
+            "awayTeamScore": 0
+          },
+          {
+            "matchDate": 1669512000000,
+            "stadium": "Ahmad Bin Ali Stadium",
+            "homeTeam": "Wales",
+            "awayTeam": "Iran",
+            "matchPlayed": true,
+            "homeTeamScore": 0,
             "awayTeamScore": 2
           },
           {
-            "matchDate": 1651744228685,
-            "stadium": "Stadion Rajko Mitic",
-            "homeTeam": "Serbia",
-            "awayTeam": "Cameroon",
+            "matchDate": 1669598400000,
+            "stadium": "Khalifa International Stadium",
+            "homeTeam": "Japan",
+            "awayTeam": "Costa Rica",
             "matchPlayed": true,
             "homeTeamScore": 0,
             "awayTeamScore": 1
           },
           {
-            "matchDate": 1651744228685,
-            "stadium": "Maracanã",
-            "homeTeam": "Brazil",
-            "awayTeam": "Switzerland",
+            "matchDate": 1669684800000,
+            "stadium": "Al Bayt Stadium",
+            "homeTeam": "England",
+            "awayTeam": "USA",
+            "matchPlayed": true,
+            "homeTeamScore": 0,
+            "awayTeamScore": 0
+          },
+          {
+            "matchDate": 1670077200000,
+            "stadium": "Lusail Iconic Stadium",
+            "homeTeam": "Argentina",
+            "awayTeam": "Mexico",
+            "matchPlayed": true,
+            "homeTeamScore": 2,
+            "awayTeamScore": 0
+          },
+          {
+            "matchDate": 1670163600000,
+            "stadium": "Education City Stadium",
+            "homeTeam": "South Korea",
+            "awayTeam": "Portugal",
+            "matchPlayed": true,
+            "homeTeamScore": 2,
+            "awayTeamScore": 1
+          },
+          {
+            "matchDate": 1670250000000,
+            "stadium": "Al Janoub Stadium",
+            "homeTeam": "France",
+            "awayTeam": "Denmark",
+            "matchPlayed": true,
+            "homeTeamScore": 2,
+            "awayTeamScore": 1
+          },
+          {
+            "matchDate": 1670602800000,
+            "stadium": "Al Thumama Stadium",
+            "homeTeam": "Morocco",
+            "awayTeam": "Spain",
+            "matchPlayed": true,
+            "homeTeamScore": 0,
+            "awayTeamScore": 0,
+            "penaltyShootout": {
+              "homeTeamPenaltyScore": 3,
+              "awayTeamPenaltyScore": 0
+            }
+          },
+          {
+            "matchDate": 1670786400000,
+            "stadium": "Lusail Iconic Stadium",
+            "homeTeam": "Argentina",
+            "awayTeam": "Netherlands",
+            "matchPlayed": true,
+            "homeTeamScore": 2,
+            "awayTeamScore": 2,
+            "penaltyShootout": {
+              "homeTeamPenaltyScore": 4,
+              "awayTeamPenaltyScore": 3
+            }
+          },
+          {
+            "matchDate": 1671045600000,
+            "stadium": "Lusail Iconic Stadium",
+            "homeTeam": "Argentina",
+            "awayTeam": "Croatia",
             "matchPlayed": true,
             "homeTeamScore": 3,
             "awayTeamScore": 0
           },
           {
-            "matchDate": 1651744228685,
-            "stadium": "Maracanã",
-            "homeTeam": "Brazil",
-            "awayTeam": "Cameroon",
+            "matchDate": 1671304800000,
+            "stadium": "Lusail Iconic Stadium",
+            "homeTeam": "Argentina",
+            "awayTeam": "France",
             "matchPlayed": true,
-            "homeTeamScore": 4,
-            "awayTeamScore": 4
-          },
-          {
-            "matchDate": 1651744228685,
-            "stadium": "Stade de Suisse",
-            "homeTeam": "Switzerland",
-            "awayTeam": "Cameroon",
-            "matchPlayed": true,
-            "homeTeamScore": 2,
-            "awayTeamScore": 2
+            "homeTeamScore": 3,
+            "awayTeamScore": 3,
+            "penaltyShootout": {
+              "homeTeamPenaltyScore": 4,
+              "awayTeamPenaltyScore": 2
+            }
           }
         ]
       },

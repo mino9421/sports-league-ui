@@ -15,7 +15,11 @@
           <div>Away Team</div>
         </div>
       </div>
-      <div class="table-body" v-for="match in matches" :key="match.matchDate">
+      <div
+        class="table-body"
+        v-for="match in paginatedMatches"
+        :key="match.matchDate"
+      >
         <div class="table-body-date">
           <div>{{ match.formattedMatchDate }}</div>
           <div>{{ match.stadium }}</div>
@@ -31,21 +35,25 @@
           </div>
         </div>
       </div>
+      <!-- Add empty rows to fill the remaining space -->
+      <div
+        v-for="n in emptyRows"
+        :key="'empty' + n"
+        class="table-body empty"
+      ></div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">
+        Next
+      </button>
     </div>
   </div>
 </template>
-<!-- sample response after my modifications
-    "matchDate": 1651744228685,
-    "stadium": "Maracanã",
-    "homeTeam": "Brazil",
-    "awayTeam": "Serbia",
-    "matchPlayed": true,
-    "homeTeamScore": 1,
-    "awayTeamScore": 0,
-    "homeFlag": "https://flagsapi.codeaid.io/countries/BR/flag",
-    "awayFlag": "https://flagsapi.codeaid.io/countries/RS/flag",
-    "formattedMatchDate": "05.05.2022 11:17"
--->
+
 <script>
 import LeagueService from "../services/LeagueService.js";
 
@@ -53,8 +61,34 @@ export default {
   data() {
     return {
       matches: [],
-      leaderboard: [],
+      currentPage: 1,
+      itemsPerPage: 10, // Adjust this number based on the desired number of items per page
     };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.matches.length / this.itemsPerPage);
+    },
+    paginatedMatches() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.matches.slice(start, end);
+    },
+    emptyRows() {
+      return this.itemsPerPage - this.paginatedMatches.length;
+    },
+  },
+  methods: {
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
   },
   async mounted() {
     const leagueService = new LeagueService();
@@ -122,6 +156,10 @@ export default {
   color: #4b5c68;
 }
 
+.table-body.empty {
+  visibility: inherit;
+}
+
 .table-body:nth-child(odd) {
   background-color: #f6f7f7;
 }
@@ -169,5 +207,33 @@ export default {
   background-color: lightblue;
   height: 100%;
   width: 100%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #182c62;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: bold;
 }
 </style>

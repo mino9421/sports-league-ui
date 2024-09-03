@@ -15,7 +15,11 @@
           <div>Points</div>
         </div>
       </div>
-      <div class="table-body" v-for="team in leaderboard" :key="team.teamName">
+      <div
+        class="table-body"
+        v-for="team in paginatedLeaderboard"
+        :key="team.teamName"
+      >
         <div class="table-body-date">
           <div><img class="flag" :src="team.flagUrl" alt="" /></div>
           <div>{{ team.teamName }}</div>
@@ -27,6 +31,21 @@
           <div>{{ team.points }}</div>
         </div>
       </div>
+      <!-- Add empty rows to fill the remaining space -->
+      <div
+        v-for="n in emptyRows"
+        :key="'empty' + n"
+        class="table-body empty"
+      ></div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">
+        Next
+      </button>
     </div>
   </div>
 </template>
@@ -38,7 +57,34 @@ export default {
   data() {
     return {
       leaderboard: [],
+      currentPage: 1,
+      itemsPerPage: 10,
     };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.leaderboard.length / this.itemsPerPage);
+    },
+    paginatedLeaderboard() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.leaderboard.slice(start, end);
+    },
+    emptyRows() {
+      return this.itemsPerPage - this.paginatedLeaderboard.length;
+    },
+  },
+  methods: {
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
   },
   async mounted() {
     const leagueService = new LeagueService();
@@ -59,7 +105,6 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: lightseagreen;
 }
 
 .heading-box {
@@ -75,12 +120,12 @@ export default {
 
 .table-box {
   width: 90%;
-  background-color: lightgreen;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   color: #4b5c68;
+  min-height: auto;
 }
 
 .table-header {
@@ -96,18 +141,25 @@ export default {
   font-size: 12px;
 }
 
+/* Add this class to fill the remaining space if fewer items are displayed */
+.table-body.empty {
+  visibility: initial;
+}
+
 .table-body {
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: row;
   height: 70px;
-  width: 100%;
   color: #4b5c68;
 }
 
 .table-body:nth-child(odd) {
   background-color: #f6f7f7;
+}
+.table-body:nth-child(even) {
+  background-color: lightgreen;
 }
 
 .table-body-date {
@@ -153,5 +205,33 @@ export default {
   background-color: lightblue;
   height: 100%;
   width: 100%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #182c62;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: bold;
 }
 </style>
