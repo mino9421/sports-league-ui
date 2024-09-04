@@ -1,9 +1,5 @@
 import axios from "axios";
 
-const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
-const API_KEY = "f09e48498983410db7a10897acbabd22";
-const BASE_URL = "https://api.football-data.org/v4";
-
 class FootballService {
   constructor() {
     this.matches = [];
@@ -33,18 +29,11 @@ class FootballService {
     return this.matches;
   }
 
-  // Fetch data for the selected competition
   async fetchData(competitionCode) {
     try {
       const response = await axios.get(
-        `${CORS_PROXY}${BASE_URL}/competitions/${competitionCode}/matches`,
-        {
-          headers: {
-            "X-Auth-Token": API_KEY,
-          },
-        }
+        `/api/fetchMatches?competitionCode=${competitionCode}`
       );
-
       const matches = response.data.matches;
 
       if (matches) {
@@ -75,12 +64,11 @@ class FootballService {
     const hours = date.getHours();
     const minutes = date.getMinutes();
 
-    const formattedDay = day < 10 ? "0" + day : day;
-    const formattedMonth = month < 10 ? "0" + month : month;
-    const formattedHours = hours < 10 ? "0" + hours : hours;
-    const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-
-    return `${formattedDay}.${formattedMonth}.${year} ${formattedHours}:${formattedMinutes}`;
+    return `${day.toString().padStart(2, "0")}.${month
+      .toString()
+      .padStart(2, "0")}.${year} ${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
   }
 }
 
