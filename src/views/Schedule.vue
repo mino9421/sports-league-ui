@@ -3,6 +3,17 @@
     <div class="heading-box">
       <header class="heading">League Schedules</header>
     </div>
+
+    <!-- Competition Selection Dropdown -->
+    <div class="competition-selector">
+      <label for="competition">Select Competition:</label>
+      <select v-model="selectedCompetition" @change="fetchMatches">
+        <option v-for="(name, code) in competitions" :key="code" :value="code">
+          {{ name }}
+        </option>
+      </select>
+    </div>
+
     <div class="table-box">
       <div class="table-header">
         <div class="table-header-text-left">
@@ -18,10 +29,10 @@
       <div
         class="table-body"
         v-for="match in paginatedMatches"
-        :key="match.matchDate"
+        :key="match.dateTime"
       >
         <div class="table-body-date">
-          <div>{{ match.formattedMatchDate }}</div>
+          <div>{{ match.dateTime }}</div>
           <div>{{ match.stadium }}</div>
         </div>
         <div class="table-body-info">
@@ -29,7 +40,7 @@
             {{ match.homeTeam }}
             <img class="flag" :src="match.homeFlag" />
           </div>
-          <div>{{ match.homeTeamScore }} : {{ match.awayTeamScore }}</div>
+          <div>{{ match.score }}</div>
           <div>
             <img class="flag" :src="match.awayFlag" />{{ match.awayTeam }}
           </div>
@@ -55,14 +66,29 @@
 </template>
 
 <script>
-import LeagueService from "../services/LeagueService.js";
+import FootballService from "../services/FootballService.js";
 
 export default {
   data() {
     return {
       matches: [],
       currentPage: 1,
-      itemsPerPage: 10, // Adjust this number based on the desired number of items per page
+      itemsPerPage: 10,
+      selectedCompetition: "WC", // Default to World Cup
+      competitions: {
+        WC: "World Cup",
+        PL: "Premier League",
+        CL: "Champions League",
+        EC: "Euro Championship",
+        FL1: "Ligue 1",
+        BL1: "Bundesliga",
+        SA: "Serie A",
+        DED: "Eredivisie",
+        PPL: "Primeira Liga",
+        CLI: "Copa Libertadores",
+        PD: "La Liga",
+        BSA: "Brasileirão",
+      },
     };
   },
   computed: {
@@ -89,11 +115,15 @@ export default {
         this.currentPage++;
       }
     },
+    async fetchMatches() {
+      const footballService = new FootballService();
+      this.currentPage = 1; // Reset to the first page after fetching new data
+      await footballService.fetchData(this.selectedCompetition); // Pass the selected competition code
+      this.matches = footballService.getMatches();
+    },
   },
   async mounted() {
-    const leagueService = new LeagueService();
-    await leagueService.fetchData();
-    this.matches = leagueService.getMatches();
+    this.fetchMatches();
   },
 };
 </script>
