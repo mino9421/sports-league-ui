@@ -1,4 +1,4 @@
-# [DEMO](https://poker-vue.vercel.app) 😊
+# [DEMO](sports-league-ui.vercel.app) 😊
 
 # Football League Web UI
 
